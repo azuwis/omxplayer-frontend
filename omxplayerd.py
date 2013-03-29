@@ -88,12 +88,12 @@ class Path:
         for item in os.listdir(os.path.join(MEDIA_RDIR,path)):
             if os.path.isfile(os.path.join(MEDIA_RDIR,path,item)):
                 fname = os.path.splitext(item)[0]
-                fname = re.sub('[^a-zA-Z0-9\[\]\(\)\{\}]+',' ',fname)
+                fname = re.sub('\.', ' ',fname)
                 fname = re.sub('\s+',' ',fname)
                 fname = string.capwords(fname.strip())
                 singletuple = (os.path.join(path,item),fname,'file')
             else:
-                fname = re.sub('[^a-zA-Z0-9\']+',' ',item)
+                fname = re.sub('\.', ' ',item)
                 fname = re.sub('\s+',' ',fname)
                 fname = string.capwords(fname.strip())
                 singletuple = (os.path.join(path,item),fname,'dir')
