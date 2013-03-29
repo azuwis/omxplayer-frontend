@@ -132,7 +132,7 @@ def omx_play(file):
     #time.sleep(0.5) #Possibly unneeded - crashing fixed by other means.
     subprocess.Popen('killall omxplayer.bin',stdout=subprocess.PIPE,shell=True)
     subprocess.Popen('clear',stdout=subprocess.PIPE,shell=True)
-    subprocess.Popen('omxplayer --font /usr/share/fonts/truetype/droid/DroidSansFallbackFull.ttf -o hdmi '+os.path.join(MEDIA_RDIR,re.escape(file))+' <'+re.escape(OMXIN_FILE),shell=True)
+    subprocess.Popen('omxplayer --align center --font /usr/share/fonts/truetype/droid/DroidSansFallbackFull.ttf -o hdmi '+os.path.join(MEDIA_RDIR,re.escape(file))+' <'+re.escape(OMXIN_FILE),shell=True)
     omx_send('.')
     return 1
 
