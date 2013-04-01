@@ -375,7 +375,7 @@ def fetch_shooter(filepath):
     header = [('User-Agent',   'SPlayer Build {0}'.format(splayer_rev)),
               ('Content-Type', 'multipart/form-data; boundary={0}'.format(boundary))
               ]
-    items = [('filehash', filehash), ('pathinfo', pathinfo), ('vhash', vhash)]
+    items = [('filehash', filehash), ('pathinfo', pathinfo.encode('utf_8')), ('vhash', vhash)]
     data = ''.join(['--{0}\n'
                     'Content-Disposition: form-data; name="{1}"\n\n'
                     '{2}\n'.format(boundary, *d) for d in items]
@@ -394,7 +394,7 @@ def fetch_shooter(filepath):
             req = urllib2.Request(url.encode('utf_8'))
             for h in header:
                 req.add_header(h[0].encode('utf_8'), h[1].encode('utf_8'))
-            req.add_data(data.encode('utf_8'))
+            req.add_data(data)
 
             print('Connecting server {0} with the submission:\n'
                           '\n{1}\n'
@@ -451,5 +451,5 @@ def save_to_disk(subtitles, filepath, save_dir=None):
             path = prefix + suffix + '1.' + s['extension']
         with open(path,'wb') as f:
             f.write(s['content'])
-            print('Saved the subtitle as {0}'.format(path))
+            print('Saved the subtitle as {0}'.format(path.encode('utf_8')))
             s['path'] = path
