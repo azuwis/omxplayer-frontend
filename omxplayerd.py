@@ -151,7 +151,12 @@ def prepare_subtitle(file):
         if shooter_subs:
             force_utf8_and_filter_duplicates(shooter_subs)
             save_to_disk(shooter_subs, filepath_withmedia)
-            srts = glob.glob(fileprefix + '*.srt')
+        asses = glob.glob(fileprefix + '*.ass')
+        if len(asses) > 0:
+            import ass2srt
+            for ass in asses:
+                ass2srt.main(ass, os.path.splitext(ass)[0] + '.srt')
+        srts = glob.glob(fileprefix + '*.srt')
     # omxplayer use exactly matched .srt subtitle, rename the first globed .srt to that
     for srt in srts:
         os.rename(srt, used_srt)
