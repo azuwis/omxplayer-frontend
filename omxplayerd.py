@@ -120,6 +120,7 @@ class Playlist:
        return output
 
 if __name__ == "__main__":
+    subprocess.Popen('sudo su -c "clear >/dev/tty1; setterm -cursor off >/dev/tty1"',shell=True)
     app = web.application(urls,globals())
     app.run()
 
