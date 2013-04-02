@@ -409,13 +409,13 @@ def fetch_shooter(filepath):
                                          data))
 
             # todo: with context manager
-            response = urllib2.urlopen(req)
+            response = urllib2.urlopen(req, timeout=5)
             fetched_subtitles = parse_shooter_package(response)
             response.close()
 
             if fetched_subtitles:
                 break
-        except urllib2.URLError, e:
+        except Exception, e:
             print(e)
     return fetched_subtitles
 
