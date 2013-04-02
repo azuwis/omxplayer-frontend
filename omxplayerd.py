@@ -391,9 +391,6 @@ def fetch_shooter(filepath):
     fetched_subtitles = ''
     for i, t in enumerate(tries):
         try:
-            print('Wait for {0}s to reconnect (Try {1} of {2})...'.format(t,i+1,len(tries)+1))
-            time.sleep(t)
-
             url = '{0}://{1}.shooter.cn/api/subapi.php'.format(random.choice(schemas), random.choice(servers))
 
             # shooter.cn uses UTF-8.
