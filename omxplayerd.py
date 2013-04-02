@@ -14,6 +14,7 @@ urls = (
 '^/play/(.*)$','Play',
 '^/path/?(.*)$','Path',
 '^/playlist/?(.*)$','Playlist',
+'^/youku/?.*$','Youku',
 '^/([^/]*)$','Other'
 )
 
@@ -120,6 +121,16 @@ class Playlist:
        output = output + ']'
        return output
 
+class Youku:
+    def GET(self):
+        user_data = web.input(u='')
+        if user_data.u:
+            m = re.match('^http://v.youku.com/v_show/id_([\w=]+).html', user_data.u)
+            if m:
+                youku_id = m.group(1)
+                omx_play("http://v.youku.com/player/getRealM3U8/vid/{0}/type/hd2/video.m3u8".format(youku_id), isurl=True)
+        return '[{\"message\":\"OK\"}]'
+
 if __name__ == "__main__":
     subprocess.Popen('sudo su -c "clear >/dev/tty1; setterm -cursor off >/dev/tty1"',shell=True)
     app = web.application(urls,globals())
@@ -129,13 +140,17 @@ def omx_send(data):
     subprocess.Popen('echo -n '+data+' >'+re.escape(OMXIN_FILE),shell=True)
     return 1
 
-def omx_play(file):
+def omx_play(file, isurl=False):
     #omx_send('q')
     #time.sleep(0.5) #Possibly unneeded - crashing fixed by other means.
     subprocess.Popen('killall omxplayer.bin',stdout=subprocess.PIPE,shell=True)
     subprocess.Popen('clear',stdout=subprocess.PIPE,shell=True)
-    prepare_subtitle(file)
-    subprocess.Popen('omxplayer --align center --font /usr/share/fonts/truetype/droid/DroidSansFallbackFull.ttf -o hdmi '+os.path.join(MEDIA_RDIR,re.escape(file))+' <'+re.escape(OMXIN_FILE),shell=True)
+    if isurl:
+        target = '"' + file + '"'
+    else:
+        target = os.path.join(MEDIA_RDIR,re.escape(file))
+        prepare_subtitle(file)
+    subprocess.Popen('omxplayer --align center --font /usr/share/fonts/truetype/droid/DroidSansFallbackFull.ttf -o hdmi '+target+' <'+re.escape(OMXIN_FILE),shell=True)
     omx_send('.')
     return 1
 
