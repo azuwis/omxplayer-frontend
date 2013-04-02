@@ -388,6 +388,7 @@ def fetch_shooter(filepath):
 
     # fetch
     import urllib2
+    fetched_subtitles = ''
     for i, t in enumerate(tries):
         try:
             print('Wait for {0}s to reconnect (Try {1} of {2})...'.format(t,i+1,len(tries)+1))
