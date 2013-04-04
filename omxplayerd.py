@@ -127,8 +127,14 @@ class Youku:
         if user_data.u:
             m = re.match('^http://v.youku.com/v_show/id_([\w=]+).html', user_data.u)
             if m:
+                import lixian.youku as youku
                 youku_id = m.group(1)
-                omx_play("http://v.youku.com/player/getRealM3U8/vid/{0}/type/hd2/video.m3u8".format(youku_id), isurl=True)
+                urls = youku.find_video(youku.get_info(youku_id))
+                url_str = '"'
+                for url, size in urls:
+                    url_str += url + '" "'
+                url_str += '"'
+                omx_play(url_str, isurl=True)
         return '[{\"message\":\"OK\"}]'
 
 if __name__ == "__main__":
@@ -146,7 +152,7 @@ def omx_play(file, isurl=False):
     subprocess.Popen('killall omxplayer.bin',stdout=subprocess.PIPE,shell=True)
     subprocess.Popen('clear',stdout=subprocess.PIPE,shell=True)
     if isurl:
-        target = '"' + file + '"'
+        target = file
     else:
         target = os.path.join(MEDIA_RDIR,re.escape(file))
         prepare_subtitle(file)
