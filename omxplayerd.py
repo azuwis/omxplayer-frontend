@@ -150,10 +150,13 @@ def omx_play(file, isurl=False):
     subprocess.Popen('clear',stdout=subprocess.PIPE,shell=True)
     if isurl:
         target = file
-    elif re.search('\[\d{2}\]\.\w{3,4}$', file):
-        start = int(re.search('\[(\d{2})\]\.\w{3,4}$', file).group(1))
-        tmpl = os.path.join(MEDIA_RDIR, re.sub('\[\d{2}\]','[%02d]',file))
-        target = '"' + '" "'.join([tmpl % x for x in range(start ,100)]) + '"'
+    elif file.startswith(ONLINE_DIR):
+        m = re.search('\[(\d{2})\]\.\w{3,4}$', file)
+        if m:
+            start = int(m.group(1))
+        else:
+            start = 0
+        target = '--loop --loop-once --loop-index {0} "{1}"'.format(start, os.path.join(MEDIA_RDIR, re.sub('\[\d{2}\]','[%02d]',file)).encode('utf_8'))
     else:
         target = os.path.join(MEDIA_RDIR,re.escape(file))
         prepare_subtitle(file)
