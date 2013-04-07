@@ -155,7 +155,7 @@ def omx_play(file, isurl=False):
     else:
         target = os.path.join(MEDIA_RDIR,re.escape(file))
         prepare_subtitle(file)
-    subprocess.Popen('omxplayer --align center --font /usr/share/fonts/truetype/droid/DroidSansFallbackFull.ttf -o hdmi '+target+' <'+re.escape(OMXIN_FILE),shell=True)
+    subprocess.Popen('omxplayer -o hdmi '+target+' <'+re.escape(OMXIN_FILE),shell=True)
     omx_send('.')
     return 1
 
