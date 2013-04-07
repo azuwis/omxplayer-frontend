@@ -43,6 +43,8 @@ command_send={
 'volumeup':'+',
 'languagedown':'j',
 'languageup':'k',
+'chapternext':'o',
+'chapterprev':'i',
 'seek-30':'\x1b\x5b\x44',
 'seek+30':'\x1b\x5b\x43',
 'seek-600':'\x1b\x5b\x42',

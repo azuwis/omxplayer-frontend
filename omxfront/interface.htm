@@ -161,6 +161,12 @@
 				case 82: // r
 					$('#navigationback').trigger('click');
 					break;
+				case 79: // o
+					$('#chapternext').trigger('click');
+					break;
+				case 73: // i
+					$('#chapterprev').trigger('click');
+					break;
 			}
 		});
 	</script>
@@ -237,6 +243,20 @@
 						<p class="number">j</p>
 						<h3 class="controlsymbol">L-</h3>
 					<!--<h2 class="name">Language -</h2>-->
+				</div>
+			</a>
+			<a class="control" id="chapternext" href="chapternext">
+				<div class="controlitem element transition metal width2">
+						<p class="number">o</p>
+						<h3 class="controlsymbol">C+</h3>
+					<!--<h2 class="name">Chapter +</h2>-->
+				</div>
+			</a>
+			<a class="control" id="chapterprev" href="/chapterprev">
+				<div class="controlitem element transition metal width2">
+						<p class="number">i</p>
+						<h3 class="controlsymbol">C-</h3>
+					<!--<h2 class="name">Chapter -</h2>-->
 				</div>
 			</a>
 			<a id="navigationback" href="/">
