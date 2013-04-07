@@ -127,7 +127,7 @@ class Online:
         user_data = web.input(u='')
         online_dir = os.path.join(MEDIA_RDIR, ONLINE_DIR)
         if user_data.u:
-            subprocess.Popen('cd {0} && lixian "{1}"'.format(online_dir, user_data.u), shell=True)
+            subprocess.Popen('you-get -n -o {0} "{1}"'.format(online_dir, user_data.u), shell=True)
             time.sleep(5)
             filelist = os.listdir(online_dir)
             filelist = filter(lambda x: not os.path.isdir(os.path.join(online_dir, x)), filelist)
