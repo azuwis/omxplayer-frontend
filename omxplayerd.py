@@ -14,7 +14,7 @@ urls = (
 '^/play/(.*)$','Play',
 '^/path/?(.*)$','Path',
 '^/playlist/?(.*)$','Playlist',
-'^/youku/?.*$','Youku',
+'^/online/?.*$','Online',
 '^/([^/]*)$','Other'
 )
 
@@ -23,6 +23,7 @@ MEDIA_RDIR = 'media/'
 PAGE_FOLDER = 'omxfront/'
 PAGE_NAME = 'interface.htm'
 OMXIN_FILE='omxin'
+ONLINE_DIR = 'online'
 
 play_list = []
 
@@ -121,20 +122,17 @@ class Playlist:
        output = output + ']'
        return output
 
-class Youku:
+class Online:
     def GET(self):
         user_data = web.input(u='')
+        online_dir = os.path.join(MEDIA_RDIR, ONLINE_DIR)
         if user_data.u:
-            m = re.match('^http://v.youku.com/v_show/id_([\w=]+).html', user_data.u)
-            if m:
-                import lixian.youku as youku
-                youku_id = m.group(1)
-                urls = youku.find_video(youku.get_info(youku_id))
-                url_str = '"'
-                for url, size in urls:
-                    url_str += url + '" "'
-                url_str += '"'
-                omx_play(url_str, isurl=True)
+            subprocess.Popen('cd {0} && lixian "{1}"'.format(online_dir, user_data.u), shell=True)
+            time.sleep(5)
+            filelist = os.listdir(online_dir)
+            filelist = filter(lambda x: not os.path.isdir(os.path.join(online_dir, x)), filelist)
+            newest = max(filelist, key=lambda x: os.stat(os.path.join(online_dir, x)).st_mtime)
+            omx_play(os.path.join(ONLINE_DIR, newest))
         return '[{\"message\":\"OK\"}]'
 
 if __name__ == "__main__":
@@ -152,6 +150,10 @@ def omx_play(file, isurl=False):
     subprocess.Popen('clear',stdout=subprocess.PIPE,shell=True)
     if isurl:
         target = file
+    elif re.search('\[\d{2}\]\.\w{3,4}$', file):
+        start = int(re.search('\[(\d{2})\]\.\w{3,4}$', file).group(1))
+        tmpl = os.path.join(MEDIA_RDIR, re.sub('\[\d{2}\]','[%02d]',file))
+        target = '"' + '" "'.join([tmpl % x for x in range(start ,100)]) + '"'
     else:
         target = os.path.join(MEDIA_RDIR,re.escape(file))
         prepare_subtitle(file)
