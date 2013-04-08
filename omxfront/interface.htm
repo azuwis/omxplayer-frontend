@@ -146,6 +146,9 @@
 				case 27: // escape
 					$('#stop').trigger('click');
 					break;
+				case 88: // x
+					$('#stopdownload').trigger('click');
+					break;
 				case 107: // (numpad) +
 					$('#volumeup').trigger('click');
 					break;
@@ -187,6 +190,13 @@
 						<p class="number">esc</p>
 						<h3 class="controlsymbol">◼</h3>
 					<!--<h2 class="name">Stop</h2>-->
+				</div>
+			</a>
+			<a class="control" id="stopdownload" href="/stopdownload">
+				<div class="controlitem element transition metal width2">
+						<p class="number">x</p>
+						<h3 class="controlsymbol">X</h3>
+					<!--<h2 class="name">StopDownload</h2>-->
 				</div>
 			</a>
 			<a class="control" id="seekbl" href="/seek-600">
