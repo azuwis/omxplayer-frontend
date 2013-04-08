@@ -135,7 +135,7 @@ class Online:
             filelist = os.listdir(online_dir)
             filelist = filter(lambda x: not os.path.isdir(os.path.join(online_dir, x)), filelist)
             newest = max(filelist, key=lambda x: os.stat(os.path.join(online_dir, x)).st_mtime)
-            omx_play(os.path.join(ONLINE_DIR, newest))
+            omx_play(os.path.join(ONLINE_DIR, newest.decode('utf_8')))
         return '[{\"message\":\"OK\"}]'
 
 class Stopdownload:
