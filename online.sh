@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 online_dir=$1
 online_url=$2
 
