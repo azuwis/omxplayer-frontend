@@ -6,7 +6,7 @@ play_if_big() {
 	file="$1"
 	while true
 	do
-		if [ $(stat -c%s "$file") -gt 9000000 ] || ! jobs -p | grep -q "^$you_get_pid$"; then
+		if [ $(stat -c%s "$file") -gt 9000000 ] || ! tmux list-panes -F '#{pane_id}' | grep -qFx "$youget_id" ; then
 			omxplayer --loop --loop-once -o hdmi "$(echo "$1" | sed -e 's/\[[0-9][0-9]\]\./[%02d]./')" <omxin &
 			echo -n . >omxin
 			break
@@ -15,8 +15,9 @@ play_if_big() {
 	done
 }
 
-you-get -n -o "$online_dir" "$online_url" &
-you_get_pid=$!
+pane_ids=`tmux list-panes -F '#{pane_id}'`
+tmux split-window -hd 'you-get -n -o "'$online_dir'" "'$online_url'"'
+youget_id=`tmux list-panes -F '#{pane_id}' | grep -Fxv "$pane_ids"`
 touch "$online_dir/timestamp"
 for i in {0..5}
 do
