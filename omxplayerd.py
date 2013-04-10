@@ -166,6 +166,9 @@ def omx_play(file, isurl=False):
     omx_send('.')
     return 1
 
+def display_msg(str):
+    subprocess.Popen(['figlet', '-ct', str])
+
 def prepare_subtitle(file):
     import glob
     fileprefix,_ = os.path.splitext(file)
@@ -174,10 +177,14 @@ def prepare_subtitle(file):
     srts = glob.glob(fileprefix + '*.srt')
     if len(srts) == 0:
         filepath_withmedia = os.path.join(MEDIA_RDIR,file)
+        display_msg('Getting subtitle...')
         shooter_subs = fetch_shooter(filepath_withmedia)
         if shooter_subs:
+            display_msg('Subtitle found')
             force_utf8_and_filter_duplicates(shooter_subs)
             save_to_disk(shooter_subs, filepath_withmedia)
+        else:
+            display_msg('No subtitle found')
         asses = glob.glob(fileprefix + '*.ass')
         if len(asses) > 0:
             import ass2srt
