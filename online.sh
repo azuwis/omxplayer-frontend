@@ -6,8 +6,12 @@ play_if_big() {
 	file="$1"
 	while true
 	do
-		if [ $(stat -c%s "$file") -gt 9000000 ] || ! tmux list-panes -F '#{pane_id}' | grep -qFx "$youget_id" ; then
-			omxplayer --loop --loop-once -o hdmi "$(echo "$1" | sed -e 's/\[[0-9][0-9]\]\./[%02d]./')" <omxin &
+		if [ $(stat -c%s "$file") -gt 20971520 ] || ! tmux list-panes -F '#{pane_id}' | grep -qFx "$youget_id" ; then
+			if echo "$file" | grep -qF '[00].'; then
+				omxplayer --loop --loop-once -o hdmi "$(echo "$file" | sed -e 's/\[[0-9][0-9]\]\./[%02d]./')" <omxin &
+			else
+				omxplayer -o hdmi "$file" <omxin &
+			fi
 			echo -n . >omxin
 			break
 		fi
