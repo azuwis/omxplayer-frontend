@@ -20,7 +20,7 @@ play_if_big() {
 }
 
 pane_ids=`tmux list-panes -F '#{pane_id}'`
-tmux split-window -hd 'you-get -n -o "'$online_dir'" "'$online_url'"'
+tmux split-window -hd 'cd "'$online_dir'"; you-get -n "'$online_url'"'
 youget_id=`tmux list-panes -F '#{pane_id}' | grep -Fxv "$pane_ids"`
 touch "$online_dir/timestamp"
 for i in {0..5}
