@@ -108,6 +108,7 @@ class Path:
         itemlist = [f for f in itemlist if os.path.splitext(f[0])[1].lower() in PLAYABLE_TYPES or f[2]=='dir']
         list.sort(itemlist, key=lambda alpha: alpha[1])
         list.sort(itemlist, key=lambda dirs: dirs[2])
+        list.sort(itemlist, key=lambda alpha: alpha[0] != ONLINE_DIR)
         outputlist=[]
         for line in itemlist:
             outputlist.append('{\"path\":\"'+line[0]+'\", \"name\":\"'+line[1]+'\", \"type\":\"'+line[2]+'\"}')
