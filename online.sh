@@ -19,10 +19,10 @@ play_if_big() {
 	done
 }
 
+touch "$online_dir/timestamp"
 pane_ids=`tmux list-panes -F '#{pane_id}'`
 tmux split-window -hd 'cd "'$online_dir'"; you-get -n "'$online_url'"'
 youget_id=`tmux list-panes -F '#{pane_id}' | grep -Fxv "$pane_ids"`
-touch "$online_dir/timestamp"
 for i in {0..5}
 do
 	newfile=`find "$online_dir" -type f -newer "$online_dir/timestamp"`
