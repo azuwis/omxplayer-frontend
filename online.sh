@@ -21,7 +21,7 @@ play_if_big() {
 
 touch "$online_dir/timestamp"
 pane_ids=`tmux list-panes -F '#{pane_id}'`
-tmux split-window -hd 'echo "downloading '$online_url'..."; cd "'$online_dir'"; you-get -n "'$online_url'" || sleep 5'
+tmux split-window -hd 'echo "downloading '$online_url'..."; cd "'$online_dir'"; you-get -n --no-suffix "'$online_url'" || sleep 5'
 youget_id=`tmux list-panes -F '#{pane_id}' | grep -Fxv "$pane_ids"`
 for i in {0..5}
 do
