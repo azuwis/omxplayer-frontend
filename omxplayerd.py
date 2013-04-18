@@ -136,7 +136,7 @@ class Online:
 
 class Stopdownload:
     def GET(self):
-        subprocess.Popen(['killall', 'python3'])
+        subprocess.Popen(['killall', '-q', 'python3'])
         return '[{\"message\":\"OK\"}]'
 
 if __name__ == "__main__":
@@ -151,7 +151,7 @@ def omx_play(file, isurl=False):
     display_msg('Playing...')
     #omx_send('q')
     #time.sleep(0.5) #Possibly unneeded - crashing fixed by other means.
-    subprocess.Popen('killall omxplayer.bin >/dev/null 2>&1',shell=True)
+    subprocess.Popen(['killall', '-q', 'omxplayer.bin'])
     if isurl:
         target = file
     elif file.startswith(ONLINE_DIR):
