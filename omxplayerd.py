@@ -149,9 +149,10 @@ def omx_send(data):
 
 def omx_play(file, isurl=False):
     display_msg('Playing...')
-    #omx_send('q')
-    #time.sleep(0.5) #Possibly unneeded - crashing fixed by other means.
+    omx_send(command_send['stop'])
+    time.sleep(1)
     subprocess.Popen(['killall', '-q', 'omxplayer.bin'])
+    time.sleep(1)
     if isurl:
         target = file
     elif file.startswith(ONLINE_DIR):
